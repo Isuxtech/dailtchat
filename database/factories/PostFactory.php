@@ -25,7 +25,12 @@ class PostFactory extends Factory
         return [
             'user_id' => $this->faker->numberBetween(1,5),
             'title' => $this->faker->unique()->realText(30),
+            'slug' => $this->faker->slug,
             'post_body' => $this->faker->realText(500),
+            'more_reference' => $this->faker->realText(200),
+            'image_url' => $this->faker->imageUrl(),
+            'category_id'=>$this->faker->numberBetween(1,5),
+            'abstract' => $this->faker->realText(50),
             'views' => $this->faker->numberBetween(1,6000),
         ];
     }

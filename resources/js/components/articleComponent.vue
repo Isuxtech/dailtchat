@@ -6,7 +6,7 @@
             <h2 class="intro-title">Lorem ipsum dolor sit amet.</h2>
            <p class="intro-content"><strong>Abstract <br/> </strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet architecto atque commodi, corporis cupiditate deleniti, ea enim esse eveniet id impedit molestias perferendis placeat porro recusandae saepe soluta totam vero?</p>
 
-           <h4 class="article-date"> MON 25 FEB 2020</h4>
+           <div class="article-date"> MON <span style="font-size:1.3rem;padding:5px;box-shadow: inset 0px 0px 2px 0px gray;">25</span> FEB</div>
        </div>
        <section class="wrapper">
            <article>
@@ -40,6 +40,7 @@
         box-shadow: 0px 0px 4px 1px gray;
         border-radius: 5px;
         position:relative;
+        font-family: 'Roboto', sans-serif !important;
     }
     .category{
         color:white;
@@ -52,23 +53,28 @@
         position:absolute;
         top:95%;
         right:0;
+        font-size:0.8rem;
         color:saddlebrown;
-        padding:5px 10px;
+        padding:0px 10px 5px 10px;
         background-color: white;
         border-radius:0 0 10px 10px;
         box-shadow:2px 2px 2px 0px gray, -2px 2px 2px 0px gray;
     }
     .intro-title{
         margin-bottom: 20px;
+
     }
     .intro-content{
         font-style: italic;
         color:gray;
+        font-family: 'Montserrat', sans-serif!important;
+        font-weight: 400;
     }
     .wrapper{
         line-height: 1.4;
         font-size: 1.2rem;
         transform: translateY(-20px);
+        font-family: 'Roboto', sans-serif !important;
     }
     article{
         width:80%;

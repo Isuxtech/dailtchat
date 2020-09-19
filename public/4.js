@@ -47,7 +47,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\nsection[data-v-e5d1511c]{\n   background-color: white;\n    width:100%;\n}\n.intro[data-v-e5d1511c]{\n    transform: translateY(-25%);\n    background-color:white;\n    width:50%;\n    padding:0 20px 30px 30px;\n    font-weight:600;\n    margin-left:30px;\n    box-shadow: 0px 0px 4px 1px gray;\n    border-radius: 5px;\n    position:relative;\n}\n.category[data-v-e5d1511c]{\n    color:white;\n    padding:10px;\n    background-color:saddlebrown;\n    transform:translateY(-4px);\n    border-radius: 5px;\n}\n.article-date[data-v-e5d1511c]{\n    position:absolute;\n    top:95%;\n    right:0;\n    color:saddlebrown;\n    padding:5px 10px;\n    background-color: white;\n    border-radius:0 0 10px 10px;\n    box-shadow:2px 2px 2px 0px gray, -2px 2px 2px 0px gray;\n}\n.intro-title[data-v-e5d1511c]{\n    margin-bottom: 20px;\n}\n.intro-content[data-v-e5d1511c]{\n    font-style: italic;\n    color:gray;\n}\n.wrapper[data-v-e5d1511c]{\n    line-height: 1.4;\n    font-size: 1.2rem;\n    transform: translateY(-20px);\n}\narticle[data-v-e5d1511c]{\n    width:80%;\n    margin:auto;\n}\n@media (max-width:440px){\n.intro[data-v-e5d1511c]{\n        width:95%;\n        font-size: 1em ;\n        margin-left:5px;\n        padding:0 10px 15px 15px;\n        transform: translateY(-15%);\n}\narticle[data-v-e5d1511c]{\n        width:98%;\n        margin:auto;\n}\n}\n", ""]);
+exports.push([module.i, "\nsection[data-v-e5d1511c]{\n   background-color: white;\n    width:100%;\n}\n.intro[data-v-e5d1511c]{\n    transform: translateY(-25%);\n    background-color:white;\n    width:50%;\n    padding:0 20px 30px 30px;\n    font-weight:600;\n    margin-left:30px;\n    box-shadow: 0px 0px 4px 1px gray;\n    border-radius: 5px;\n    position:relative;\n    font-family: 'Roboto', sans-serif !important;\n}\n.category[data-v-e5d1511c]{\n    color:white;\n    padding:10px;\n    background-color:saddlebrown;\n    transform:translateY(-4px);\n    border-radius: 5px;\n}\n.article-date[data-v-e5d1511c]{\n    position:absolute;\n    top:95%;\n    right:0;\n    font-size:0.8rem;\n    color:saddlebrown;\n    padding:0px 10px 5px 10px;\n    background-color: white;\n    border-radius:0 0 10px 10px;\n    box-shadow:2px 2px 2px 0px gray, -2px 2px 2px 0px gray;\n}\n.intro-title[data-v-e5d1511c]{\n    margin-bottom: 20px;\n}\n.intro-content[data-v-e5d1511c]{\n    font-style: italic;\n    color:gray;\n    font-family: 'Montserrat', sans-serif!important;\n    font-weight: 400;\n}\n.wrapper[data-v-e5d1511c]{\n    line-height: 1.4;\n    font-size: 1.2rem;\n    transform: translateY(-20px);\n    font-family: 'Roboto', sans-serif !important;\n}\narticle[data-v-e5d1511c]{\n    width:80%;\n    margin:auto;\n}\n@media (max-width:440px){\n.intro[data-v-e5d1511c]{\n        width:95%;\n        font-size: 1em ;\n        margin-left:5px;\n        padding:0 10px 15px 15px;\n        transform: translateY(-15%);\n}\narticle[data-v-e5d1511c]{\n        width:98%;\n        margin:auto;\n}\n}\n", ""]);
 
 // exports
 
@@ -121,7 +121,21 @@ var staticRenderFns = [
           )
         ]),
         _vm._v(" "),
-        _c("h4", { staticClass: "article-date" }, [_vm._v(" MON 25 FEB 2020")])
+        _c("div", { staticClass: "article-date" }, [
+          _vm._v(" MON "),
+          _c(
+            "span",
+            {
+              staticStyle: {
+                "font-size": "1.3rem",
+                padding: "5px",
+                "box-shadow": "inset 0px 0px 2px 0px gray"
+              }
+            },
+            [_vm._v("25")]
+          ),
+          _vm._v(" FEB")
+        ])
       ]),
       _vm._v(" "),
       _c("section", { staticClass: "wrapper" }, [

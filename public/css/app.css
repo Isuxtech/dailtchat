@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);* {
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -104,7 +104,7 @@ nav {
 }
 
 .card-content {
-  line-height: 1.2;
+  line-height: 1.3;
   padding: 5px 10px;
 }
 
@@ -113,15 +113,18 @@ nav {
   font-size: large;
   width: 100%;
   text-align: left;
-  text-transform: uppercase;
+  text-transform: capitalize;
   font-size: 1.2rem;
+  font-family: Arial, Sans-Serif;
+  margin: 6px 0;
 }
 
 .card-text {
   white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 1.05em;
+  font-size: 1em;
+  font-family: "Roboto", sans-serif !important;
 }
 
 .card-date {

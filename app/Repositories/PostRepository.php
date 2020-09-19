@@ -31,7 +31,7 @@ class PostRepository implements PostRepositoryInterface
         foreach( $pageItems  as $key=>$items){
             $pageItems[$key]['id'] = $pageItems[$key]['id'];
             $pageItems[$key]['slug'] = $pageItems[$key]['slug'] ?? 'none';
-            $pageItems[$key]['title'] = Str::upper($pageItems[$key]['title']);
+            $pageItems[$key]['title'] = Str::title($pageItems[$key]['title']);
             $pageItems[$key]['post'] = Str::limit($pageItems[$key]['post_body'], 120);
             $pageItems[$key]['day'] = Carbon::make($pageItems[$key]['created_at'])->day;
             $pageItems[$key]['month'] = $this->formatDate( Carbon::make($pageItems[$key]['created_at'])->monthName);

@@ -52996,13 +52996,13 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: '/',
     name: 'home',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/home.vue */ "./resources/js/components/home.vue"));
+      return Promise.all(/*! import() */[__webpack_require__.e(1), __webpack_require__.e(5)]).then(__webpack_require__.bind(null, /*! ./components/home.vue */ "./resources/js/components/home.vue"));
     }
   }, {
     path: '/article',
     name: 'articles',
     component: function component() {
-      return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(4)]).then(__webpack_require__.bind(null, /*! ./components/articleComponent.vue */ "./resources/js/components/articleComponent.vue"));
+      return Promise.all(/*! import() */[__webpack_require__.e(1), __webpack_require__.e(4)]).then(__webpack_require__.bind(null, /*! ./components/articleComponent.vue */ "./resources/js/components/articleComponent.vue"));
     }
   }],
   mode: 'history'

@@ -14,12 +14,12 @@ Vue.use(Vuerouter);
          {
          path:'/',
          name:'home',
-         component: ()=> import('./components/home.vue'),
+         component: ()=> import(/*webpackChunkName: 'home'  */ './components/home.vue'),
         },
          {
              path:'/article/:slug',
              name:'article',
-             component: ()=> import('./components/articleComponent.vue'),
+             component: ()=> import(/*webpackChunkName: 'articleComponent'  */ './components/articleComponent.vue'),
          },
      ],
 

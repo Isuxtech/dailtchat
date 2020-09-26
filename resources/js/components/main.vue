@@ -28,8 +28,8 @@
         },
         components:{
             Navigation,
-            homeBanner :() => import('./homeBanner.vue'),
-            articleBanner :() => import('./articleBanner.vue'),
+            homeBanner :() => import(/*webpackChunkName: 'homeBanner'  */ './homeBanner.vue'),
+            articleBanner :() => import(/*webpackChunkName: 'articleBanner'  */ './articleBanner.vue'),
         },
         computed:{
             isHome(){

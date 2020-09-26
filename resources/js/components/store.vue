@@ -8,6 +8,7 @@
         state:{
             article:{},
             image_url:'',
+            all_article:'',
         },
         getters:{
             GET_ARTICLE:(state)=>{
@@ -22,7 +23,10 @@
         mutations:{
             changeArticles(state,payload){
                 state.article = payload.article;
-                state.image_url = payload.article[0].image_url;
+                // state.image_url = payload.article[0].image_url;
+            },
+            getAllArticle(state, payload){
+                // state.all_article
             }
         },
         actions:{

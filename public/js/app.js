@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"1":"vendors~articleBanner~articleComponent","articleBanner":"articleBanner","articleComponent":"articleComponent","home":"home","homeBanner":"homeBanner"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -2054,10 +2054,10 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     Navigation: _navigationComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
     homeBanner: function homeBanner() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./homeBanner.vue */ "./resources/js/components/homeBanner.vue"));
+      return __webpack_require__.e(/*! import() | homeBanner */ "homeBanner").then(__webpack_require__.bind(null, /*! ./homeBanner.vue */ "./resources/js/components/homeBanner.vue"));
     },
     articleBanner: function articleBanner() {
-      return Promise.all(/*! import() */[__webpack_require__.e(1), __webpack_require__.e(4)]).then(__webpack_require__.bind(null, /*! ./articleBanner.vue */ "./resources/js/components/articleBanner.vue"));
+      return Promise.all(/*! import() | articleBanner */[__webpack_require__.e(1), __webpack_require__.e("articleBanner")]).then(__webpack_require__.bind(null, /*! ./articleBanner.vue */ "./resources/js/components/articleBanner.vue"));
     }
   },
   computed: {
@@ -2113,8 +2113,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      'logo': './img/logo.png'
+      'logo': './img/logo.png',
+      searchQuery: null
     };
+  },
+  methods: {
+    getResult: function getResult() {
+      var notValidQuery = ['has', 'got', 'are', 'the'];
+      var query = this.searchQuery.trim();
+      var checker = notValidQuery.includes(query);
+
+      if (!checker) {
+        alert("".concat(query, ", ").concat(checker));
+      }
+    }
   }
 });
 
@@ -2139,7 +2151,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     article: {},
-    image_url: ''
+    image_url: '',
+    all_article: ''
   },
   getters: {
     GET_ARTICLE: function GET_ARTICLE(state) {
@@ -2151,8 +2164,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   },
   mutations: {
     changeArticles: function changeArticles(state, payload) {
-      state.article = payload.article;
-      state.image_url = payload.article[0].image_url;
+      state.article = payload.article; // state.image_url = payload.article[0].image_url;
+    },
+    getAllArticle: function getAllArticle(state, payload) {// state.all_article
     }
   },
   actions: {
@@ -37812,7 +37826,35 @@ var render = function() {
     ),
     _vm._v(" "),
     _c("div", { staticClass: "navbar-wrapper" }, [
-      _vm._m(1),
+      _c("div", { staticClass: "search-wrapper" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.searchQuery,
+              expression: "searchQuery"
+            }
+          ],
+          staticClass: "search",
+          attrs: { type: "search", placeholder: "search" },
+          domProps: { value: _vm.searchQuery },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.searchQuery = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn-search", on: { click: _vm.getResult } },
+          [_vm._v("search")]
+        )
+      ]),
       _vm._v(" "),
       _c(
         "div",
@@ -37846,19 +37888,6 @@ var staticRenderFns = [
       _c("div", { staticClass: "hamburger middle-hamburger" }),
       _vm._v(" "),
       _c("div", { staticClass: "hamburger last-hamburger" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "search-wrapper" }, [
-      _c("input", {
-        staticClass: "search",
-        attrs: { type: "search", placeholder: "search" }
-      }),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn-search" }, [_vm._v("search")])
     ])
   }
 ]
@@ -54383,13 +54412,13 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: '/',
     name: 'home',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/home.vue */ "./resources/js/components/home.vue"));
+      return __webpack_require__.e(/*! import() | home */ "home").then(__webpack_require__.bind(null, /*! ./components/home.vue */ "./resources/js/components/home.vue"));
     }
   }, {
     path: '/article/:slug',
     name: 'article',
     component: function component() {
-      return Promise.all(/*! import() */[__webpack_require__.e(1), __webpack_require__.e(5)]).then(__webpack_require__.bind(null, /*! ./components/articleComponent.vue */ "./resources/js/components/articleComponent.vue"));
+      return Promise.all(/*! import() | articleComponent */[__webpack_require__.e(1), __webpack_require__.e("articleComponent")]).then(__webpack_require__.bind(null, /*! ./components/articleComponent.vue */ "./resources/js/components/articleComponent.vue"));
     }
   }]
 });

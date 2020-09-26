@@ -43,7 +43,7 @@
           }
         },
         created() {
-           this.getAxios();
+            this.getAxios();
            // console.log(this.getNumber)
         },
         computed:{

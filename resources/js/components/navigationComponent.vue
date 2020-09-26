@@ -12,8 +12,8 @@
         </div>
         <div class="navbar-wrapper">
             <div class="search-wrapper">
-                <input type="search" placeholder="search" class="search">
-                <button class="btn-search">search</button>
+                <input type="search" placeholder="search" class="search" v-model="searchQuery">
+                <button class="btn-search" @click="getResult">search</button>
             </div>
            <div class="special-links">
                <router-link to="/" class="decor account">Account</router-link>
@@ -27,9 +27,23 @@
  export default {
      data(){
          return{
-             'logo': './img/logo.png'
+             'logo': './img/logo.png',
+             searchQuery:null
          }
+     },
+     methods:{
+         getResult(){
+             const notValidQuery = ['has','got','are','the'];
+             const query = this.searchQuery.trim();
 
+             const checker = notValidQuery.includes(query);
+
+             if(!checker){
+                 alert(`${query}, ${checker}`);
+             }
+
+
+         }
      }
  }
 </script>

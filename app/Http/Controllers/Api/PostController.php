@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Repositories\PostRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -47,9 +48,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(PostRepositoryInterface $Article, $id)
     {
-        //
+        return $Article->getArticle($id);
     }
 
     /**

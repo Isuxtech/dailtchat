@@ -41,6 +41,7 @@
         },
         mounted() {
             console.log(this.$router)
-        }
+        },
+
     }
 </script>

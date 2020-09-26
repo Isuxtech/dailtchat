@@ -1,14 +1,16 @@
 <template>
    <div>
        <main>
+           <h2 v-if="no_article" :class="['empty-post']">no post found</h2>
            <div class="content">
+
                <div class="card" v-for="articles in article" :key="articles.id">
-                   <img :src="'../img/sample.jpg'" alt="" class="card-img">
+                   <img :src="articles.image_url" alt="" class="card-img">
                    <div class="card-content">
-                    <h3 class="card-title" v-text="articles.title"></h3>
-                    <p class="card-text" v-text="articles.post"></p>
+                    <h2 class="card-title card-link" v-text="articles.title" @click="$router.push({name:'article', params:{'slug':articles.slug}})"></h2>
+                    <p class="card-text" v-text="articles.abstract"></p>
                    </div>
-                   <div class="card-date card-bk-color">
+                   <div class="card-date" v-bind:style="{'background-color':articles.color}">
                        <h4 v-text="articles.dayName"></h4>
                        <h4 class="card-day" v-text="articles.day">12</h4>
                        <h4 class="card-year" v-text="articles.month">FEB</h4>
@@ -25,54 +27,8 @@
    </div>
 
 </template>
-<style scoped>
-    .next-wrapper{
-        width:100%;
-        padding:20px;
-        /*background-color:#011b31;*/
-        background-color:white;
-        margin:auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-    }
-    .next{
-        width:max-content;
-        margin:auto;
-        padding:10px 20px;
-        border-radius: 4px;
-        color:white;
-        border:transparent;
-        font-family: 'Roboto, sans-serif';
-        font-weight: 600;
-        cursor:pointer;
-        background-image: linear-gradient(45deg, rgba(0, 0, 255, 0.82), #00a6ff);
-        text-transform: uppercase;
-    }
-    .next:hover{
-        box-shadow: 0px 0px 4px 0px gray;
-    }
-    .next:active{
-        animation-name: bounce;
-        animation-direction:normal;
-        animation-iteration-count: 1;
-        animation-timing-function: ease-in-out;
-        animation-duration: 400s;
-    }
-
-    @keyframes bounce {
-        0%,40%{
-            transform:translateY(-10px);
-        }
-        100%{
-            transform:translateY(0px);
-        }
-    }
-</style>
 
 <script>
-
     export default {
         name:'home',
         data(){
@@ -83,16 +39,23 @@
               'last_page' : null,
               'next_page_url':null,
               'nextPagepresent': true,
+              'no_article' :false,
           }
         },
         created() {
            this.getAxios();
+           // console.log(this.getNumber)
+        },
+        computed:{
+            // explain of getting items in vuex store
+            getNumber(){
+               return  this.$store.getters.GET_NUMBER
+            }
         },
         methods:{
             getAxios(nextPage = '/api/posts'){
                 axios.get(nextPage)
                     .then(resolve=>{
-                        console.log(resolve)
                         const page_result = resolve.data;
                         for(let more_articles of page_result.data){
                             this.article.push(more_articles);
@@ -100,18 +63,17 @@
                         this.current_page = page_result.current_page;
                         this.last_page = page_result.last_page;
                         this.next_page_url = page_result.next_page_url;
-
                         if(this.current_page == this.last_page){
                             this.nextPagepresent = false
                         }
                     })
                     .catch(err=>{
                         console.log(err,'error was encountered in the auto getter')
+                        this.no_article =true;
                     });
             },
             loadNext(){
                 this.getAxios(this.next_page_url);
-
             },
            // postLoader(){
                //  const obs = this.$refs['observeTarget'];
@@ -136,9 +98,10 @@
         //   }
 
         },
-        // destroyed() {
-        //     this.observer.disconnect();
-        // }
+
+        // do the watching here
+
+
     }
 
 </script>

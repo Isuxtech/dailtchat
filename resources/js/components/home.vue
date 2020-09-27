@@ -29,79 +29,89 @@
 </template>
 
 <script>
+ import {mapGetters} from 'vuex';
+
     export default {
         name:'home',
         data(){
           return {
-              'article' :[],
+              // 'article' :[],
               'scrollHeight': null,
-              'current_page' :null,
-              'last_page' : null,
-              'next_page_url':null,
+              // 'current_page' :null,
+              // 'last_page' : null,
+              // 'next_page_url':null,
               'nextPagepresent': true,
               'no_article' :false,
           }
         },
         created() {
-            this.getAxios();
+            // this.getAxios();
            // console.log(this.getNumber)
         },
         computed:{
             // explain of getting items in vuex store
             getNumber(){
                return  this.$store.getters.GET_NUMBER
+            },
+            ...mapGetters({
+                article:'GET_ALL_ARTICLES',
+                current_page: 'CURRENT_PAGE',
+                last_page:'LAST_PAGE',
+                next_page_url:'NEXT_URL',
+            })
+        },
+        beforeRouteEnter(to, from, next){
+            console.log(to)
+            if(to.name !=="quicksearch"){
+                next(vm=>{
+                    vm.getAxios();
+                    // vm.getAxios(`/api/posts/${to.params.term}`);
+                    console.log('trying to get the to from here',`/api/posts/?${to.params.term}`)
+                })
+            }else{
+                next(vm=>{
+                    vm.getAxios(`/api/posts/${to.params.term}`);
+                    console.log('trying to get the to from here',`/api/posts/?${to.params.term}`)
+                })
             }
+
+
         },
         methods:{
-            getAxios(nextPage = '/api/posts'){
-                axios.get(nextPage)
-                    .then(resolve=>{
-                        const page_result = resolve.data;
-                        for(let more_articles of page_result.data){
-                            this.article.push(more_articles);
-                        }
-                        this.current_page = page_result.current_page;
-                        this.last_page = page_result.last_page;
-                        this.next_page_url = page_result.next_page_url;
-                        if(this.current_page == this.last_page){
-                            this.nextPagepresent = false
-                        }
-                    })
-                    .catch(err=>{
-                        console.log(err,'error was encountered in the auto getter')
-                        this.no_article =true;
-                    });
-            },
+        getAxios(nextPage = `/api/posts?size=2`) {
+            let result = this.article;
+            axios.get(nextPage,{
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+
+            })
+                .then(response => {
+                    const responseBody = response.data;
+                    for (let post of responseBody.data) {
+                        result.push(post);
+                    }
+                    this.$store.dispatch('commitAllArticle',
+                        {
+                            article: result,
+                            current_page: responseBody.meta.current_page,
+                            last_page: responseBody.meta.last_page,
+                            next_page_url: responseBody.links.next,
+                        });
+                     if (this.current_page === this.last_page){
+                         this.nextPagepresent = false
+                     }
+                })
+                .catch(err => {
+                    console.log(err)
+                    // this.no_article = true;
+                });
+        },
             loadNext(){
+            console.log(this.next_page_url)
                 this.getAxios(this.next_page_url);
             },
-           // postLoader(){
-               //  const obs = this.$refs['observeTarget'];
-               // parent.observer = new IntersectionObserver((entries,onserver)=>{
-               //         entries.forEach((entry)=>{
-               //             if(entry.isIntersecting)
-               //             {
-               //                 // console.log(entry)
-               //                 if(this.current_page !== this.last_page){
-               //                     this.getAxios(this.next_page_url)
-               //                     console.log(window.screenX)
-               //                 }else{
-               //                     onserver.unobserve(obs);
-               //                 }
-               //             }
-               //
-               //
-               //         })
-               //     }, {root:null, threshold:1, rootMargin:'0px 0px 0px 0px'}
-               // )
-               // parent.observer.observe(this.$refs['observeTarget'])
-        //   }
-
         },
-
-        // do the watching here
-
-
     }
 
 </script>

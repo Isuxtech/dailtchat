@@ -14,7 +14,7 @@
 
     <body>
         <div class="container" id="app">
-            <main-app>
+            <main-app/>
         </div>
 
         <script src="{{asset('js/app.js')}}" defer> </script>

@@ -9,12 +9,19 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -45,44 +52,70 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'home',
   data: function data() {
     return {
-      'article': [],
+      // 'article' :[],
       'scrollHeight': null,
-      'current_page': null,
-      'last_page': null,
-      'next_page_url': null,
+      // 'current_page' :null,
+      // 'last_page' : null,
+      // 'next_page_url':null,
       'nextPagepresent': true,
       'no_article': false
     };
   },
-  created: function created() {
-    this.getAxios(); // console.log(this.getNumber)
+  created: function created() {// this.getAxios();
+    // console.log(this.getNumber)
   },
-  computed: {
+  computed: _objectSpread({
     // explain of getting items in vuex store
     getNumber: function getNumber() {
       return this.$store.getters.GET_NUMBER;
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    article: 'GET_ALL_ARTICLES',
+    current_page: 'CURRENT_PAGE',
+    last_page: 'LAST_PAGE',
+    next_page_url: 'NEXT_URL'
+  })),
+  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+    console.log(to);
+
+    if (to.name !== "quicksearch") {
+      next(function (vm) {
+        vm.getAxios(); // vm.getAxios(`/api/posts/${to.params.term}`);
+
+        console.log('trying to get the to from here', "/api/posts/?".concat(to.params.term));
+      });
+    } else {
+      next(function (vm) {
+        vm.getAxios("/api/posts/".concat(to.params.term));
+        console.log('trying to get the to from here', "/api/posts/?".concat(to.params.term));
+      });
     }
   },
   methods: {
     getAxios: function getAxios() {
       var _this = this;
 
-      var nextPage = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/api/posts';
-      axios.get(nextPage).then(function (resolve) {
-        var page_result = resolve.data;
+      var nextPage = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/posts?size=2";
+      var result = this.article;
+      axios.get(nextPage, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function (response) {
+        var responseBody = response.data;
 
-        var _iterator = _createForOfIteratorHelper(page_result.data),
+        var _iterator = _createForOfIteratorHelper(responseBody.data),
             _step;
 
         try {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var more_articles = _step.value;
-
-            _this.article.push(more_articles);
+            var post = _step.value;
+            result.push(post);
           }
         } catch (err) {
           _iterator.e(err);
@@ -90,44 +123,25 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           _iterator.f();
         }
 
-        _this.current_page = page_result.current_page;
-        _this.last_page = page_result.last_page;
-        _this.next_page_url = page_result.next_page_url;
+        _this.$store.dispatch('commitAllArticle', {
+          article: result,
+          current_page: responseBody.meta.current_page,
+          last_page: responseBody.meta.last_page,
+          next_page_url: responseBody.links.next
+        });
 
-        if (_this.current_page == _this.last_page) {
+        if (_this.current_page === _this.last_page) {
           _this.nextPagepresent = false;
         }
       })["catch"](function (err) {
-        console.log(err, 'error was encountered in the auto getter');
-        _this.no_article = true;
+        console.log(err); // this.no_article = true;
       });
     },
     loadNext: function loadNext() {
+      console.log(this.next_page_url);
       this.getAxios(this.next_page_url);
-    } // postLoader(){
-    //  const obs = this.$refs['observeTarget'];
-    // parent.observer = new IntersectionObserver((entries,onserver)=>{
-    //         entries.forEach((entry)=>{
-    //             if(entry.isIntersecting)
-    //             {
-    //                 // console.log(entry)
-    //                 if(this.current_page !== this.last_page){
-    //                     this.getAxios(this.next_page_url)
-    //                     console.log(window.screenX)
-    //                 }else{
-    //                     onserver.unobserve(obs);
-    //                 }
-    //             }
-    //
-    //
-    //         })
-    //     }, {root:null, threshold:1, rootMargin:'0px 0px 0px 0px'}
-    // )
-    // parent.observer.observe(this.$refs['observeTarget'])
-    //   }
-
-  } // do the watching here
-
+    }
+  }
 });
 
 /***/ }),

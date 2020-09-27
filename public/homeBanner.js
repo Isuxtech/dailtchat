@@ -41,14 +41,16 @@ __webpack_require__.r(__webpack_exports__);
         name: 'James Bond'
       }],
       shows: false,
-      duration: 8000
+      duration: 8000,
+      timer: null,
+      loopinterval: null
     };
   },
   computed: {
     del: function del() {
       var _this = this;
 
-      var loopinterval = setInterval(function () {
+      this.loopinterval = setInterval(function () {
         _this.getQuote();
       }, this.duration);
     }
@@ -57,7 +59,7 @@ __webpack_require__.r(__webpack_exports__);
     getQuote: function getQuote() {
       var _this2 = this;
 
-      var timer = setTimeout(function () {
+      this.timer = setTimeout(function () {
         _this2.shows = !_this2.shows;
 
         if (_this2.current_count < _this2.quotes.length - 1) {
@@ -73,8 +75,8 @@ __webpack_require__.r(__webpack_exports__);
     this.del;
   },
   beforeDestroy: function beforeDestroy() {
-    clearInterval(loopinterval);
-    clearTimeout(timer);
+    clearInterval(this.loopinterval);
+    clearTimeout(this.timer);
   }
 });
 

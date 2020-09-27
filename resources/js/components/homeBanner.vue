@@ -41,19 +41,21 @@
              ],
              shows:false,
              duration:8000,
+             timer:null,
+             loopinterval:null
          }
      },
      computed:{
 
        del(){
-          const loopinterval =  setInterval(()=>{
+           this.loopinterval =  setInterval(()=>{
              this.getQuote()
            },this.duration);
        }
      },
      methods:{
           getQuote() {
-              const timer = setTimeout(()=>{
+              this.timer = setTimeout(()=>{
                   this.shows = !this.shows;
                   if(this.current_count < this.quotes.length - 1){
                       this.current_count++;
@@ -71,8 +73,8 @@
      },
 
      beforeDestroy() {
-        clearInterval(loopinterval);
-        clearTimeout(timer);
+        clearInterval(this.loopinterval);
+        clearTimeout(this.timer);
      }
  }
 </script>

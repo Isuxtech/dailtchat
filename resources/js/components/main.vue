@@ -21,11 +21,6 @@
     import Navigation from './navigationComponent';
     export default {
         name:'main-app',
-        data(){
-           return {
-               current_link:null,
-           }
-        },
         components:{
             Navigation,
             homeBanner :() => import(/*webpackChunkName: 'homeBanner'  */ './homeBanner.vue'),
@@ -33,7 +28,7 @@
         },
         computed:{
             isHome(){
-                if(this.$route.path == "/"){
+                if(this.$route.name !== "article"){
                     return true;
                 }
                 return false;

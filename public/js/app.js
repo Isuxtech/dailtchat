@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"1":"vendors~articleBanner~articleComponent","articleBanner":"articleBanner","articleComponent":"articleComponent","home":"home","homeBanner":"homeBanner"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"home":"home","homeBanner":"homeBanner","vendors~articleBanner~articleComponent":"vendors~articleBanner~articleComponent","articleBanner":"articleBanner","articleComponent":"articleComponent"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -2046,23 +2046,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'main-app',
-  data: function data() {
-    return {
-      current_link: null
-    };
-  },
   components: {
     Navigation: _navigationComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
     homeBanner: function homeBanner() {
       return __webpack_require__.e(/*! import() | homeBanner */ "homeBanner").then(__webpack_require__.bind(null, /*! ./homeBanner.vue */ "./resources/js/components/homeBanner.vue"));
     },
     articleBanner: function articleBanner() {
-      return Promise.all(/*! import() | articleBanner */[__webpack_require__.e(1), __webpack_require__.e("articleBanner")]).then(__webpack_require__.bind(null, /*! ./articleBanner.vue */ "./resources/js/components/articleBanner.vue"));
+      return Promise.all(/*! import() | articleBanner */[__webpack_require__.e("vendors~articleBanner~articleComponent"), __webpack_require__.e("articleBanner")]).then(__webpack_require__.bind(null, /*! ./articleBanner.vue */ "./resources/js/components/articleBanner.vue"));
     }
   },
   computed: {
     isHome: function isHome() {
-      if (this.$route.path == "/") {
+      if (this.$route.name !== "article") {
         return true;
       }
 
@@ -2119,14 +2114,46 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getResult: function getResult() {
-      var notValidQuery = ['has', 'got', 'are', 'the'];
+      var notValidQuery = ['', 'has', 'got', 'are', 'the'];
       var query = this.searchQuery.trim();
       var checker = notValidQuery.includes(query);
 
       if (!checker) {
-        alert("".concat(query, ", ").concat(checker));
+        alert("".concat(query, ", ").concat(checker)); // this.getAxios();
+
+        this.$router.push({
+          name: 'quicksearch',
+          params: {
+            'term': this.searchQuery
+          }
+        });
       }
-    }
+    } // getAxios(nextPage = '/api/posts'){
+    //     let result = [];
+    //     axios.get(nextPage)
+    //         .then(resolve=>{
+    //             const page_result = resolve.data;
+    //             for(let more_articles of page_result.data){
+    //                 result.push(more_articles);
+    //             }
+    //             this.$store.dispatch('commitAllArticle',
+    //                 {
+    //                     article:result,
+    //                     current_page:page_result.current_page,
+    //                     last_page:page_result.last_page,
+    //                     next_page_url:page_result.next_page_url,
+    //                 });
+    //             console.log({article:result});
+    //             // if(this.current_page == this.last_page){
+    //             //     this.nextPagepresent = false
+    //             // }
+    //         })
+    //         .catch(err=>{
+    //             console.log(err,'error was encountered in the auto getter')
+    //             this.no_article =true;
+    //         });
+    // },
+
   }
 });
 
@@ -2152,7 +2179,12 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     article: {},
     image_url: '',
-    all_article: ''
+    all_article: {
+      'article': [],
+      'current_page': null,
+      'last_page': null,
+      'next_page_url': null
+    }
   },
   getters: {
     GET_ARTICLE: function GET_ARTICLE(state) {
@@ -2160,19 +2192,41 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     GET_IMAGE: function GET_IMAGE(state) {
       return state.image_url;
+    },
+    GET_ALL_ARTICLES: function GET_ALL_ARTICLES(state) {
+      return state.all_article.article;
+    },
+    CURRENT_PAGE: function CURRENT_PAGE(state) {
+      return state.all_article.current_page;
+    },
+    LAST_PAGE: function LAST_PAGE(state) {
+      return state.all_article.last_page;
+    },
+    NEXT_URL: function NEXT_URL(state) {
+      return state.all_article.next_page_url;
     }
   },
   mutations: {
     changeArticles: function changeArticles(state, payload) {
-      state.article = payload.article; // state.image_url = payload.article[0].image_url;
+      state.article = payload.article;
+      state.image_url = payload.article[0].image_url;
     },
-    getAllArticle: function getAllArticle(state, payload) {// state.all_article
+    getAllArticle: function getAllArticle(state, payload) {
+      var app_state = state.all_article;
+      app_state.article = payload.article;
+      app_state.current_page = payload.current_page;
+      app_state.last_page = payload.last_page;
+      app_state.next_page_url = payload.next_page_url;
     }
   },
   actions: {
     storeArticle: function storeArticle(_ref, payload) {
       var commit = _ref.commit;
       commit('changeArticles', payload);
+    },
+    commitAllArticle: function commitAllArticle(_ref2, payload) {
+      var commit = _ref2.commit;
+      commit('getAllArticle', payload);
     }
   }
 });
@@ -54415,10 +54469,16 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       return __webpack_require__.e(/*! import() | home */ "home").then(__webpack_require__.bind(null, /*! ./components/home.vue */ "./resources/js/components/home.vue"));
     }
   }, {
+    path: '/search/:term',
+    name: 'quicksearch',
+    component: function component() {
+      return __webpack_require__.e(/*! import() | home */ "home").then(__webpack_require__.bind(null, /*! ./components/home.vue */ "./resources/js/components/home.vue"));
+    }
+  }, {
     path: '/article/:slug',
     name: 'article',
     component: function component() {
-      return Promise.all(/*! import() | articleComponent */[__webpack_require__.e(1), __webpack_require__.e("articleComponent")]).then(__webpack_require__.bind(null, /*! ./components/articleComponent.vue */ "./resources/js/components/articleComponent.vue"));
+      return Promise.all(/*! import() | articleComponent */[__webpack_require__.e("vendors~articleBanner~articleComponent"), __webpack_require__.e("articleComponent")]).then(__webpack_require__.bind(null, /*! ./components/articleComponent.vue */ "./resources/js/components/articleComponent.vue"));
     }
   }]
 });

@@ -34,41 +34,47 @@
      },
      methods:{
          getResult(){
+             if(this.searchQuery === null){
+                 return false;
+             }
              const notValidQuery = ['','has','got','are','the'];
              const query = this.searchQuery.trim();
 
              const checker = notValidQuery.includes(query);
 
              if(!checker){
-                 alert(`${query}, ${checker}`);
-                 // this.getAxios();
-                 this.$router.push({name:'quicksearch',params:{'term':this.searchQuery}})
+                 axios.get(`/api/search?term=${this.searchQuery}`, {
+                     headers: {
+                         'Content-Type': 'application/json'
+                     }
+
+                 })
+                     .then(response => {
+                         console.log(response);
+                         // const responseBody = response.data;
+                         // const result = responseBody;
+                         //    console.log(responseBody.data.length);
+                         // this.$store.dispatch('commitAllArticle',
+                         //     {
+                         //         article: result,
+                         //         // current_page: responseBody.meta.current_page,
+                         //         // last_page: responseBody.meta.last_page,
+                         //         // next_page_url: responseBody.links.next,
+                         //     });
+
+                         // if (this.current_page === this.last_page) {
+                         //     this.nextPagepresent = false
+                         // }
+                     })
+                     .catch(err => {
+                         // this.no_article = true;
+                         console.log('err is', err)
+                     });
+                 // this.$router.push({name:'quicksearch',params:{'term':this.searchQuery}})
              }
          },
-         // getAxios(nextPage = '/api/posts'){
-         //     let result = [];
-         //     axios.get(nextPage)
-         //         .then(resolve=>{
-         //             const page_result = resolve.data;
-         //             for(let more_articles of page_result.data){
-         //                 result.push(more_articles);
-         //             }
-         //             this.$store.dispatch('commitAllArticle',
-         //                 {
-         //                     article:result,
-         //                     current_page:page_result.current_page,
-         //                     last_page:page_result.last_page,
-         //                     next_page_url:page_result.next_page_url,
-         //                 });
-         //             console.log({article:result});
-         //             // if(this.current_page == this.last_page){
-         //             //     this.nextPagepresent = false
-         //             // }
-         //         })
-         //         .catch(err=>{
-         //             console.log(err,'error was encountered in the auto getter')
-         //             this.no_article =true;
-         //         });
+         // getAxios(term) {
+         //
          // },
      }
  }

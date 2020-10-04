@@ -2063,9 +2063,6 @@ __webpack_require__.r(__webpack_exports__);
 
       return false;
     }
-  },
-  mounted: function mounted() {
-    console.log(this.$router);
   }
 });
 
@@ -2114,44 +2111,40 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getResult: function getResult() {
+      if (this.searchQuery === null) {
+        return false;
+      }
+
       var notValidQuery = ['', 'has', 'got', 'are', 'the'];
       var query = this.searchQuery.trim();
       var checker = notValidQuery.includes(query);
 
       if (!checker) {
-        alert("".concat(query, ", ").concat(checker)); // this.getAxios();
-
-        this.$router.push({
-          name: 'quicksearch',
-          params: {
-            'term': this.searchQuery
+        axios.get("/api/search?term=".concat(this.searchQuery), {
+          headers: {
+            'Content-Type': 'application/json'
           }
-        });
+        }).then(function (response) {
+          console.log(response); // const responseBody = response.data;
+          // const result = responseBody;
+          //    console.log(responseBody.data.length);
+          // this.$store.dispatch('commitAllArticle',
+          //     {
+          //         article: result,
+          //         // current_page: responseBody.meta.current_page,
+          //         // last_page: responseBody.meta.last_page,
+          //         // next_page_url: responseBody.links.next,
+          //     });
+          // if (this.current_page === this.last_page) {
+          //     this.nextPagepresent = false
+          // }
+        })["catch"](function (err) {
+          // this.no_article = true;
+          console.log('err is', err);
+        }); // this.$router.push({name:'quicksearch',params:{'term':this.searchQuery}})
       }
-    } // getAxios(nextPage = '/api/posts'){
-    //     let result = [];
-    //     axios.get(nextPage)
-    //         .then(resolve=>{
-    //             const page_result = resolve.data;
-    //             for(let more_articles of page_result.data){
-    //                 result.push(more_articles);
-    //             }
-    //             this.$store.dispatch('commitAllArticle',
-    //                 {
-    //                     article:result,
-    //                     current_page:page_result.current_page,
-    //                     last_page:page_result.last_page,
-    //                     next_page_url:page_result.next_page_url,
-    //                 });
-    //             console.log({article:result});
-    //             // if(this.current_page == this.last_page){
-    //             //     this.nextPagepresent = false
-    //             // }
-    //         })
-    //         .catch(err=>{
-    //             console.log(err,'error was encountered in the auto getter')
-    //             this.no_article =true;
-    //         });
+    } // getAxios(term) {
+    //
     // },
 
   }
@@ -2178,20 +2171,17 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     article: {},
-    image_url: '',
     all_article: {
       'article': [],
       'current_page': null,
       'last_page': null,
       'next_page_url': null
-    }
+    } // will_duplicate:null
+
   },
   getters: {
     GET_ARTICLE: function GET_ARTICLE(state) {
-      return state.article[0];
-    },
-    GET_IMAGE: function GET_IMAGE(state) {
-      return state.image_url;
+      return state.article;
     },
     GET_ALL_ARTICLES: function GET_ALL_ARTICLES(state) {
       return state.all_article.article;
@@ -2204,19 +2194,24 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     NEXT_URL: function NEXT_URL(state) {
       return state.all_article.next_page_url;
-    }
+    } // WILL_DUPLICATE:(state)=>{
+    //     return state.will_duplicate;
+    // }
+
   },
   mutations: {
     changeArticles: function changeArticles(state, payload) {
-      state.article = payload.article;
-      state.image_url = payload.article[0].image_url;
+      state.article = payload.article.data;
     },
     getAllArticle: function getAllArticle(state, payload) {
       var app_state = state.all_article;
       app_state.article = payload.article;
       app_state.current_page = payload.current_page;
       app_state.last_page = payload.last_page;
-      app_state.next_page_url = payload.next_page_url;
+      app_state.next_page_url = payload.next_page_url; // const slug_exist =  app_state.article.find( (search)=>{
+      //         return (search.slug ==payload.article[0].slug)
+      //      })
+      // state.will_duplicate = slug_exist ? true :null
     }
   },
   actions: {

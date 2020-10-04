@@ -46,7 +46,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: 'articles',
   data: function data() {
     return {
-      is_loaded: false
+      is_loaded: true
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
@@ -62,7 +62,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
 
         _this.is_loaded = true;
-      })["catch"](function (err) {// tell the user what happened and then
+      })["catch"](function (err) {
+        _this.is_loaded = false; // tell the user what happened and then
         // return the user to the home path immediately
       });
     }
@@ -138,72 +139,64 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.is_loaded
-    ? _c("section", [
+  return _c("section", [
+    _c(
+      "div",
+      {
+        staticClass: "intro",
+        style: { "box-shadow": "0px 0px 4px 1px " + _vm.article.color }
+      },
+      [
+        _c("h4", {
+          staticClass: "category",
+          style: { "background-color": _vm.article.color },
+          domProps: { textContent: _vm._s(_vm.article.category_name) }
+        }),
+        _vm._v(" "),
+        _c("h2", {
+          staticClass: "intro-title",
+          domProps: { textContent: _vm._s(_vm.article.title) }
+        }),
+        _vm._v(" "),
+        _c("p", { staticClass: "intro-content" }, [
+          _vm._m(0),
+          _vm._v("\n            " + _vm._s(_vm.article.title) + "\n        ")
+        ]),
+        _vm._v(" "),
         _c(
           "div",
           {
-            staticClass: "intro",
-            style: { "box-shadow": "0px 0px 4px 1px " + _vm.article.color }
+            staticClass: "article-date",
+            style: {
+              color: "" + _vm.article.color,
+              "box-shadow":
+                "2px 2px 2px 0px " +
+                _vm.article.color +
+                ", -2px 2px 2px 0px " +
+                _vm.article.color
+            }
           },
           [
-            _c("h4", {
-              staticClass: "category",
-              style: { "background-color": _vm.article.color },
-              domProps: { textContent: _vm._s(_vm.article.category_name) }
-            }),
-            _vm._v(" "),
-            _c("h2", {
-              staticClass: "intro-title",
-              domProps: { textContent: _vm._s(_vm.article.title) }
-            }),
-            _vm._v(" "),
-            _c("p", { staticClass: "intro-content" }, [
-              _vm._m(0),
-              _vm._v(
-                "\n            " + _vm._s(_vm.article.title) + "\n        "
-              )
-            ]),
-            _vm._v(" "),
+            _vm._v(" " + _vm._s(_vm.article.dayName) + "\n            "),
             _c(
-              "div",
-              {
-                staticClass: "article-date",
-                style: {
-                  color: "" + _vm.article.color,
-                  "box-shadow":
-                    "2px 2px 2px 0px " +
-                    _vm.article.color +
-                    ", -2px 2px 2px 0px " +
-                    _vm.article.color
-                }
-              },
-              [
-                _vm._v(" " + _vm._s(_vm.article.dayName) + "\n            "),
-                _c(
-                  "span",
-                  { staticStyle: { "font-size": "1.3rem", padding: "5px" } },
-                  [_vm._v(_vm._s(_vm.article.day))]
-                ),
-                _vm._v(
-                  "\n            " + _vm._s(_vm.article.month) + "\n        "
-                )
-              ]
-            )
+              "span",
+              { staticStyle: { "font-size": "1.3rem", padding: "5px" } },
+              [_vm._v(_vm._s(_vm.article.day))]
+            ),
+            _vm._v("\n            " + _vm._s(_vm.article.month) + "\n        ")
           ]
-        ),
-        _vm._v(" "),
-        _c("section", { staticClass: "wrapper" }, [
-          _c("article", [
-            _c("p", [
-              _vm._v(
-                "\n            " + _vm._s(_vm.article.body) + "\n          "
-              )
-            ])
-          ])
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c("section", { staticClass: "wrapper" }, [
+      _c("article", [
+        _c("p", [
+          _vm._v("\n            " + _vm._s(_vm.article.body) + "\n          ")
         ])
       ])
-    : _vm._e()
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {

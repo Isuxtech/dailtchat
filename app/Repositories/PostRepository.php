@@ -8,6 +8,7 @@ use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -45,13 +46,32 @@ class PostRepository implements PostRepositoryInterface
     public function getArticleBySlug($slug): Post
     {
         /** @var Post $post */
-        $post = Post::with(['user' => function (Builder $query) {
+        $post = Post::with(['user' => function ($query) {
             $query->select('id', 'name');
-        }])->with(['category' => function (Builder $query) {
+        }])->with(['category' => function ($query) {
             $query->select('cat_id', 'category_name', 'category_scheme');
         }])->where('slug', $slug)
             ->firstOrFail();
         return $post;
     }
+
+    public function searchPerTerm($request) //: LengthAwarePaginator
+    {
+        $term = $request->input("term");
+        $pageSize = (int)$request->input("size");
+        $posts = Post::where('title','like', "%{$term}%")
+            ->orWhere('abstract','like', "%{$term}%")
+            ->orWhere('slug','like', "%{$term}%")
+            ->orWhere('post_body','like', "%{$term}%")
+            ->with(['category' => function ($query) {
+            $query->select(['cat_id', 'category_scheme']);
+        }])->paginate($pageSize);
+
+        if ($pageSize > 0)
+            $posts->appends("size", $pageSize);
+
+        return $posts;
+    }
+
 
 }

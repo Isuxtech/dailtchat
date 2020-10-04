@@ -10,6 +10,7 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/components/store.vue");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -51,50 +52,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'home',
   data: function data() {
     return {
-      // 'article' :[],
       'scrollHeight': null,
-      // 'current_page' :null,
-      // 'last_page' : null,
-      // 'next_page_url':null,
       'nextPagepresent': true,
       'no_article': false
     };
   },
-  created: function created() {// this.getAxios();
-    // console.log(this.getNumber)
-  },
-  computed: _objectSpread({
-    // explain of getting items in vuex store
-    getNumber: function getNumber() {
-      return this.$store.getters.GET_NUMBER;
-    }
-  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     article: 'GET_ALL_ARTICLES',
     current_page: 'CURRENT_PAGE',
     last_page: 'LAST_PAGE',
     next_page_url: 'NEXT_URL'
   })),
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    console.log(to);
-
     if (to.name !== "quicksearch") {
-      next(function (vm) {
-        vm.getAxios(); // vm.getAxios(`/api/posts/${to.params.term}`);
+      if (from.name != "article") {
+        next(function (vm) {
+          vm.getAxios();
+        });
+      } else {
+        next();
+      }
+    } // else{
+    //     next(vm=>{
+    //             vm.getAxios(`/api/posts/${to.params.term}`);
+    //     })
+    // }
 
-        console.log('trying to get the to from here', "/api/posts/?".concat(to.params.term));
-      });
-    } else {
-      next(function (vm) {
-        vm.getAxios("/api/posts/".concat(to.params.term));
-        console.log('trying to get the to from here', "/api/posts/?".concat(to.params.term));
-      });
-    }
   },
   methods: {
     getAxios: function getAxios() {
@@ -133,13 +122,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (_this.current_page === _this.last_page) {
           _this.nextPagepresent = false;
         }
-      })["catch"](function (err) {
-        console.log(err); // this.no_article = true;
+      })["catch"](function (err) {// this.no_article = true;
       });
     },
     loadNext: function loadNext() {
-      console.log(this.next_page_url);
       this.getAxios(this.next_page_url);
+    },
+    readArticle: function readArticle(slug) {
+      this.$router.push({
+        name: 'article',
+        params: {
+          'slug': slug
+        }
+      });
     }
   }
 });
@@ -183,10 +178,7 @@ var render = function() {
                 domProps: { textContent: _vm._s(articles.title) },
                 on: {
                   click: function($event) {
-                    return _vm.$router.push({
-                      name: "article",
-                      params: { slug: articles.slug }
-                    })
+                    return _vm.readArticle(articles.slug)
                   }
                 }
               }),

@@ -34,9 +34,5 @@
                 return false;
             }
         },
-        mounted() {
-            console.log(this.$router)
-        },
-
     }
 </script>

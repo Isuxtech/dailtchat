@@ -1,5 +1,5 @@
 <template>
-   <section v-if="is_loaded">
+   <section>
        <div class="intro" v-bind:style="{'box-shadow': `0px 0px 4px 1px ${article.color}`}">
            <h4 class="category" :style="{'background-color': article.color}" v-text="article.category_name"></h4>
 
@@ -29,7 +29,7 @@
         name:'articles',
         data(){
             return{
-                is_loaded:false
+                is_loaded:true
             }
         },
         computed: {
@@ -44,8 +44,10 @@
               .then(response =>{
                   this.$store.dispatch('storeArticle',{article: response.data })
                   this.is_loaded = true
+
               })
               .catch(err =>{
+                  this.is_loaded = false
                   // tell the user what happened and then
                   // return the user to the home path immediately
               })

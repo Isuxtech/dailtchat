@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Exception\BuilderNotFoundException;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -64,6 +65,18 @@ class PostController extends Controller
     public function show($slug): PostResource
     {
         return new PostResource($this->post->getArticleBySlug($slug));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param $term
+     * @return PostResource
+     */
+    public function searchTerm(Request $request) : AnonymousResourceCollection
+    {
+//       $term = Str::lower( $request->input('term') );
+        return PostResource::collection($this->post->searchPerTerm( $request));
     }
 
     /**

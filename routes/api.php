@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/posts', [App\Http\Controllers\Api\PostController::class, 'index']);
-Route::get('/posts/{id}', [App\Http\Controllers\Api\PostController::class, 'show']);
+Route::get('/posts/{slug}', [App\Http\Controllers\Api\PostController::class, 'show']);
+Route::get('/search/', [App\Http\Controllers\Api\PostController::class, 'searchTerm']);

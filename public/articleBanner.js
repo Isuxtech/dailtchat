@@ -24,7 +24,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    'image_url': 'GET_IMAGE',
     'article': 'GET_ARTICLE'
   }))
 });
@@ -101,7 +100,7 @@ var render = function() {
       "background-color:" +
       _vm.article.color +
       ";background-image:url(" +
-      _vm.image_url +
+      _vm.article.image_url +
       ")"
   })
 }

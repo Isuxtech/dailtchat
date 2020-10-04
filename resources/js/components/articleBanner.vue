@@ -1,5 +1,5 @@
 <template>
-    <div :style="`background-color:${article.color};background-image:url(${image_url})`" :class="['banner']"> </div>
+    <div :style="`background-color:${article.color};background-image:url(${article.image_url})`" :class="['banner']"> </div>
 </template>
 
 
@@ -9,7 +9,6 @@
 
       computed:{
           ...mapGetters({
-              'image_url':'GET_IMAGE',
               'article':'GET_ARTICLE'
           })
 

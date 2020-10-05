@@ -9,8 +9,7 @@ use App\Repositories\PostRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
-use Ramsey\Uuid\Exception\BuilderNotFoundException;
-use Illuminate\Support\Str;
+
 
 class PostController extends Controller
 {
@@ -75,8 +74,12 @@ class PostController extends Controller
      */
     public function searchTerm(Request $request) : AnonymousResourceCollection
     {
-//       $term = Str::lower( $request->input('term') );
-        return PostResource::collection($this->post->searchPerTerm( $request));
+        // look for a way to make this method return a void under this AnonymousResourceCollection
+
+        $result = $this->post->searchPerTerm($request);
+
+           return PostResource::collection($result);
+
     }
 
     /**

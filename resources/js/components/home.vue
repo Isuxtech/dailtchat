@@ -1,7 +1,6 @@
 <template>
    <div>
        <main>
-           <h2 v-if="no_article" :class="['empty-post']">no post found</h2>
            <div class="content">
                <div class="card" v-for="articles in article" :key="articles.id">
                    <img :src="articles.image_url" alt="" class="card-img">
@@ -18,7 +17,7 @@
 
            </div>
            <div class="next-wrapper">
-               <button class="next" v-if="nextPagepresent" @click="loadNext"> Next</button>
+               <button class="next" v-if="next_btn" @click="loadNext"> Next</button>
            </div>
 
 
@@ -36,7 +35,6 @@
         data(){
           return {
               'scrollHeight': null,
-              'nextPagepresent': true,
               'no_article' :false,
           }
         },
@@ -46,6 +44,7 @@
                 current_page: 'CURRENT_PAGE',
                 last_page:'LAST_PAGE',
                 next_page_url:'NEXT_URL',
+                next_btn: 'NEXT_BTN',
             })
         },
         beforeRouteEnter(to, from, next){
@@ -85,11 +84,8 @@
                                     current_page: responseBody.meta.current_page,
                                     last_page: responseBody.meta.last_page,
                                     next_page_url: responseBody.links.next,
+                                    next_btn : (responseBody.meta.current_page !== responseBody.meta.last_page)// && (this.next_btn != true),
                                 });
-
-                        if (this.current_page === this.last_page) {
-                            this.nextPagepresent = false
-                        }
                     })
                     .catch(err => {
                         // this.no_article = true;

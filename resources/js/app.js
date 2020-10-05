@@ -17,9 +17,9 @@ Vue.use(Vuerouter);
          component: ()=> import(/*webpackChunkName: 'home'  */ './components/home.vue'),
         },
          {
-             path:'/search/:term',
-             name:'quicksearch',
-             component: ()=> import(/*webpackChunkName: 'home'  */ './components/home.vue'),
+             path:'/search',
+             name:'search',
+             component: ()=> import(/*webpackChunkName: 'search'  */ './components/searchComponent.vue'),
          },
          {
              path:'/article/:slug',

@@ -5,5 +5,7 @@
     "/articleComponent.js": "/articleComponent.js",
     "/home.js": "/home.js",
     "/homeBanner.js": "/homeBanner.js",
-    "/vendors~articleBanner~articleComponent.js": "/vendors~articleBanner~articleComponent.js"
+    "/vendors~articleBanner~articleComponent.js": "/vendors~articleBanner~articleComponent.js",
+    "/vendors~articleComponent.js": "/vendors~articleComponent.js",
+    "/search.js": "/search.js"
 }

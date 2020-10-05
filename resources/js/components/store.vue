@@ -12,6 +12,14 @@
                 'current_page' :null,
                 'last_page' : null,
                 'next_page_url':null,
+                'next_btn':false
+            },
+            search_article:{
+                'article' :[],
+                'current_page' :null,
+                'last_page' : null,
+                'next_page_url':null,
+                'next_btn':false
             },
             // will_duplicate:null
         },
@@ -31,6 +39,9 @@
             NEXT_URL:(state)=>{
                 return state.all_article.next_page_url;
             },
+            NEXT_BTN:(state)=>{
+                return state.all_article.next_btn;
+            }
             // WILL_DUPLICATE:(state)=>{
             //     return state.will_duplicate;
             // }
@@ -46,11 +57,15 @@
                      app_state.current_page = payload.current_page;
                      app_state.last_page = payload.last_page;
                      app_state.next_page_url = payload.next_page_url;
-
-                // const slug_exist =  app_state.article.find( (search)=>{
-                //         return (search.slug ==payload.article[0].slug)
-                //      })
-                // state.will_duplicate = slug_exist ? true :null
+                     app_state.next_btn = payload.next_btn;
+            },
+            searchResult(state, payload){
+                const app_state = state.search_article;
+                app_state.article = payload.article;
+                app_state.current_page = payload.current_page;
+                app_state.last_page = payload.last_page;
+                app_state.next_page_url = payload.next_page_url;
+                app_state.next_btn = payload.next_btn;
             }
         },
         actions:{
@@ -59,6 +74,9 @@
             },
             commitAllArticle({commit},payload){
                 commit('getAllArticle',payload);
+            },
+            searchArticle({commit},payload){
+                commit('searchResult',payload);
             }
         }
     });

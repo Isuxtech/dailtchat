@@ -24,7 +24,7 @@
 </template>
 
 <script>
-
+import Swal from 'sweetalert2';
  export default {
      data(){
          return{
@@ -50,21 +50,28 @@
 
                  })
                      .then(response => {
-                         console.log(response);
-                         // const responseBody = response.data;
-                         // const result = responseBody;
-                         //    console.log(responseBody.data.length);
-                         // this.$store.dispatch('commitAllArticle',
-                         //     {
-                         //         article: result,
-                         //         // current_page: responseBody.meta.current_page,
-                         //         // last_page: responseBody.meta.last_page,
-                         //         // next_page_url: responseBody.links.next,
-                         //     });
 
-                         // if (this.current_page === this.last_page) {
-                         //     this.nextPagepresent = false
-                         // }
+                         const responseBody = response.data;
+                         if(responseBody.data.length === 0){
+                             Swal.fire({
+                                 icon: 'error',
+                                 title: 'Oops...',
+                                 text: 'Search not found!',
+                             })
+                             return false;
+                         }
+                          const result = responseBody;
+                         console.log(result.data)
+                         this.$store.dispatch('commitAllArticle',
+                             {
+                                 article: result.data,
+                                 current_page: responseBody.meta.current_page,
+                                 last_page: responseBody.meta.last_page,
+                                 next_page_url: responseBody.links.next,
+                                 next_btn : (this.current_page !== this.last_page) && (this.next_btn != true),
+                             });
+
+
                      })
                      .catch(err => {
                          // this.no_article = true;

@@ -55,7 +55,7 @@ class PostRepository implements PostRepositoryInterface
         return $post;
     }
 
-    public function searchPerTerm($request) //: LengthAwarePaginator
+    public function searchPerTerm($request): LengthAwarePaginator
     {
         $term = $request->input("term");
         $pageSize = (int)$request->input("size");

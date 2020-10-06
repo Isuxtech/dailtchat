@@ -19,7 +19,7 @@
 
 <script>
     import Navigation from './navigationComponent';
-    import Swal from 'sweetalert2'
+    import Swal from 'sweetalert2';
     export default {
         name:'main-app',
         components:{

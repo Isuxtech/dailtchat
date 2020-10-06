@@ -17,7 +17,7 @@
 
             </div>
             <div class="next-wrapper">
-                <button class="next" v-if="next_btn" @click="loadNext"> Next</button>
+<!--                <button class="next" v-if="next_btn" @click="loadNext"> Next</button>-->
             </div>
 
 
@@ -28,7 +28,7 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import store from "./store";
+
 
 export default {
     name:'home',
@@ -39,60 +39,14 @@ export default {
     },
     computed:{
         ...mapGetters({
-            article:'GET_ALL_ARTICLES',
-            current_page: 'CURRENT_PAGE',
-            last_page:'LAST_PAGE',
-            next_page_url:'NEXT_URL',
-            next_btn: 'NEXT_BTN',
+            article:'S_GET_ALL_ARTICLES',
+            current_page: 'S_CURRENT_PAGE',
+            last_page:'S_LAST_PAGE',
+            next_page_url:'S_NEXT_URL',
+            next_btn: 'S_NEXT_BTN',
         })
     },
-    beforeRouteEnter(to, from, next){
-        if(to.name !=="quicksearch"){
-            if(from.name !="article"){
-                next(vm=>{
-                    vm.getAxios();
-                })
-            }else{
-                next()
-            }
-
-        }
-        // else{
-        //     next(vm=>{
-        //             vm.getAxios(`/api/posts/${to.params.term}`);
-        //     })
-        // }
-    },
     methods: {
-        getAxios(nextPage = `/api/posts?size=2`) {
-            let result = this.article;
-            axios.get(nextPage, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-
-            })
-                .then(response => {
-                    const responseBody = response.data;
-                    for (let post of responseBody.data) {
-                        result.push(post);
-                    }
-                    this.$store.dispatch('commitAllArticle',
-                        {
-                            article: result,
-                            current_page: responseBody.meta.current_page,
-                            last_page: responseBody.meta.last_page,
-                            next_page_url: responseBody.links.next,
-                            next_btn : (responseBody.meta.current_page !== responseBody.meta.last_page)// && (this.next_btn != true),
-                        });
-                })
-                .catch(err => {
-                    // this.no_article = true;
-                });
-        },
-        loadNext() {
-            this.getAxios(this.next_page_url);
-        },
         readArticle: function (slug) {
             this.$router.push({name: 'article', params: {'slug': slug}})
         },

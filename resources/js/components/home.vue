@@ -28,7 +28,6 @@
 
 <script>
  import {mapGetters} from 'vuex';
- import store from "./store";
 
     export default {
         name:'home',
@@ -48,21 +47,13 @@
             })
         },
         beforeRouteEnter(to, from, next){
-            if(to.name !=="quicksearch"){
-                if(from.name !="article"){
-                    next(vm=>{
-                        vm.getAxios();
-                    })
-                }else{
-                    next()
-                }
-
+            if(from.name === null){
+                next(vm=>{
+                    vm.getAxios();
+                })
+            }else{
+                next();
             }
-            // else{
-            //     next(vm=>{
-            //             vm.getAxios(`/api/posts/${to.params.term}`);
-            //     })
-            // }
         },
         methods: {
             getAxios(nextPage = `/api/posts?size=2`) {

@@ -12,7 +12,7 @@
         </div>
         <div class="navbar-wrapper">
             <div class="search-wrapper">
-                <input type="search" placeholder="search" class="search" v-model="searchQuery">
+                <input type="search" placeholder="search" class="search" v-model="searchQuery" @keydown.enter="getResult">
                 <button class="btn-search" @click="getResult">search</button>
             </div>
            <div class="special-links">
@@ -33,7 +33,7 @@ import Swal from 'sweetalert2';
          }
      },
      methods:{
-         getResult(){
+         getResult:function(){
              if(this.searchQuery === null){
                  return false;
              }
@@ -41,7 +41,6 @@ import Swal from 'sweetalert2';
              const query = this.searchQuery.trim();
 
              const checker = notValidQuery.includes(query);
-
              if(!checker){
                  axios.get(`/api/search?term=${this.searchQuery}`, {
                      headers: {
@@ -61,8 +60,7 @@ import Swal from 'sweetalert2';
                              return false;
                          }
                           const result = responseBody;
-                         console.log(result.data)
-                         this.$store.dispatch('commitAllArticle',
+                         this.$store.dispatch('searchArticle',
                              {
                                  article: result.data,
                                  current_page: responseBody.meta.current_page,
@@ -70,19 +68,19 @@ import Swal from 'sweetalert2';
                                  next_page_url: responseBody.links.next,
                                  next_btn : (this.current_page !== this.last_page) && (this.next_btn != true),
                              });
-
+                         if(this.$route.params.term !==this.searchQuery){
+                           this.$router.push({name: 'search', params: {'term': this.searchQuery}});
+                             this.searchQuery=null;
+                        }
 
                      })
                      .catch(err => {
                          // this.no_article = true;
                          console.log('err is', err)
                      });
-                 // this.$router.push({name:'quicksearch',params:{'term':this.searchQuery}})
              }
          },
-         // getAxios(term) {
-         //
-         // },
+
      }
  }
 </script>

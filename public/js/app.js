@@ -2145,24 +2145,31 @@ __webpack_require__.r(__webpack_exports__);
           }
 
           var result = responseBody;
-          console.log(result.data);
 
-          _this.$store.dispatch('commitAllArticle', {
+          _this.$store.dispatch('searchArticle', {
             article: result.data,
             current_page: responseBody.meta.current_page,
             last_page: responseBody.meta.last_page,
             next_page_url: responseBody.links.next,
             next_btn: _this.current_page !== _this.last_page && _this.next_btn != true
           });
+
+          if (_this.$route.params.term !== _this.searchQuery) {
+            _this.$router.push({
+              name: 'search',
+              params: {
+                'term': _this.searchQuery
+              }
+            });
+
+            _this.searchQuery = null;
+          }
         })["catch"](function (err) {
           // this.no_article = true;
           console.log('err is', err);
-        }); // this.$router.push({name:'quicksearch',params:{'term':this.searchQuery}})
+        });
       }
-    } // getAxios(term) {
-    //
-    // },
-
+    }
   }
 });
 
@@ -2195,11 +2202,11 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       'next_btn': false
     },
     search_article: {
-      'article': [],
-      'current_page': null,
-      'last_page': null,
-      'next_page_url': null,
-      'next_btn': false
+      's_article': [],
+      's_current_page': null,
+      's_last_page': null,
+      's_next_page_url': null,
+      's_next_btn': false
     } // will_duplicate:null
 
   },
@@ -2221,10 +2228,23 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     NEXT_BTN: function NEXT_BTN(state) {
       return state.all_article.next_btn;
-    } // WILL_DUPLICATE:(state)=>{
-    //     return state.will_duplicate;
-    // }
-
+    },
+    ///////////////////////////////////////////////////// search getter
+    S_GET_ALL_ARTICLES: function S_GET_ALL_ARTICLES(state) {
+      return state.search_article.s_article;
+    },
+    S_CURRENT_PAGE: function S_CURRENT_PAGE(state) {
+      return state.search_article.s_current_page;
+    },
+    S_LAST_PAGE: function S_LAST_PAGE(state) {
+      return state.search_article.s_last_page;
+    },
+    S_NEXT_URL: function S_NEXT_URL(state) {
+      return state.search_article.s_next_page_url;
+    },
+    S_NEXT_BTN: function S_NEXT_BTN(state) {
+      return state.search_article.s_next_btn;
+    }
   },
   mutations: {
     changeArticles: function changeArticles(state, payload) {
@@ -2240,11 +2260,11 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     searchResult: function searchResult(state, payload) {
       var app_state = state.search_article;
-      app_state.article = payload.article;
-      app_state.current_page = payload.current_page;
-      app_state.last_page = payload.last_page;
-      app_state.next_page_url = payload.next_page_url;
-      app_state.next_btn = payload.next_btn;
+      app_state.s_article = payload.article;
+      app_state.s_current_page = payload.current_page;
+      app_state.s_last_page = payload.last_page;
+      app_state.s_next_page_url = payload.next_page_url;
+      app_state.s_next_btn = payload.next_btn;
     }
   },
   actions: {
@@ -41268,6 +41288,15 @@ var render = function() {
           attrs: { type: "search", placeholder: "search" },
           domProps: { value: _vm.searchQuery },
           on: {
+            keydown: function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
+              }
+              return _vm.getResult($event)
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -57843,7 +57872,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       return __webpack_require__.e(/*! import() | home */ "home").then(__webpack_require__.bind(null, /*! ./components/home.vue */ "./resources/js/components/home.vue"));
     }
   }, {
-    path: '/search',
+    path: '/search/:term',
     name: 'search',
     component: function component() {
       return __webpack_require__.e(/*! import() | search */ "search").then(__webpack_require__.bind(null, /*! ./components/searchComponent.vue */ "./resources/js/components/searchComponent.vue"));

@@ -10,13 +10,6 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/components/store.vue");
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -52,76 +45,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'home',
   data: function data() {
     return {};
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    article: 'GET_ALL_ARTICLES',
-    current_page: 'CURRENT_PAGE',
-    last_page: 'LAST_PAGE',
-    next_page_url: 'NEXT_URL',
-    next_btn: 'NEXT_BTN'
+    article: 'S_GET_ALL_ARTICLES',
+    current_page: 'S_CURRENT_PAGE',
+    last_page: 'S_LAST_PAGE',
+    next_page_url: 'S_NEXT_URL',
+    next_btn: 'S_NEXT_BTN'
   })),
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    if (to.name !== "quicksearch") {
-      if (from.name != "article") {
-        next(function (vm) {
-          vm.getAxios();
-        });
-      } else {
-        next();
-      }
-    } // else{
-    //     next(vm=>{
-    //             vm.getAxios(`/api/posts/${to.params.term}`);
-    //     })
-    // }
-
-  },
   methods: {
-    getAxios: function getAxios() {
-      var _this = this;
-
-      var nextPage = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/posts?size=2";
-      var result = this.article;
-      axios.get(nextPage, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function (response) {
-        var responseBody = response.data;
-
-        var _iterator = _createForOfIteratorHelper(responseBody.data),
-            _step;
-
-        try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var post = _step.value;
-            result.push(post);
-          }
-        } catch (err) {
-          _iterator.e(err);
-        } finally {
-          _iterator.f();
-        }
-
-        _this.$store.dispatch('commitAllArticle', {
-          article: result,
-          current_page: responseBody.meta.current_page,
-          last_page: responseBody.meta.last_page,
-          next_page_url: responseBody.links.next,
-          next_btn: responseBody.meta.current_page !== responseBody.meta.last_page // && (this.next_btn != true),
-
-        });
-      })["catch"](function (err) {// this.no_article = true;
-      });
-    },
-    loadNext: function loadNext() {
-      this.getAxios(this.next_page_url);
-    },
     readArticle: function readArticle(slug) {
       this.$router.push({
         name: 'article',
@@ -214,13 +150,7 @@ var render = function() {
         0
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "next-wrapper" }, [
-        _vm.next_btn
-          ? _c("button", { staticClass: "next", on: { click: _vm.loadNext } }, [
-              _vm._v(" Next")
-            ])
-          : _vm._e()
-      ])
+      _c("div", { staticClass: "next-wrapper" })
     ])
   ])
 }

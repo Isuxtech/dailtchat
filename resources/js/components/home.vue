@@ -17,7 +17,8 @@
 
            </div>
            <div class="next-wrapper">
-               <button class="next" v-if="next_btn" @click="loadNext"> Next</button>
+               <button class="next" v-if="next_btn" @click="loadNext" v-show="loaded">Next</button>
+               <button class="next" v-if="next_btn" v-show="!loaded" disabled>Loading</button>
            </div>
 
 
@@ -36,6 +37,7 @@
               'scrollHeight': null,
               'no_article' :false,
               'selectedSlug':null,
+              'loaded':true,
           }
         },
         computed:{
@@ -47,6 +49,11 @@
                 next_btn: 'NEXT_BTN',
             })
         },
+        watch:{
+            loaded: function(){
+                return this.next_label="loading"
+            }
+        },
         beforeRouteEnter(to, from, next){
             if(from.name === null){
                 next(vm=>{
@@ -56,6 +63,7 @@
                 next();
             }
         },
+
         beforeRouteLeave(to, from, next){
             if(to.name === 'article'){
                 next(vm=>{
@@ -66,7 +74,9 @@
             }
         },
         methods: {
+
             getAxios(nextPage = `/api/posts`) {
+
                 let result = this.article;
                 axios.get(nextPage, {
                     headers: {
@@ -87,6 +97,7 @@
                                     next_page_url: responseBody.links.next,
                                     next_btn : (responseBody.meta.current_page !== responseBody.meta.last_page)// && (this.next_btn != true),
                                 });
+                        this.loaded = true;
                     })
                     .catch(err => {
                         // this.no_article = true;
@@ -106,6 +117,7 @@
                     })
             },
             loadNext() {
+                this.loaded = false;
                 this.getAxios(this.next_page_url);
             },
             readArticle: function (slug) {

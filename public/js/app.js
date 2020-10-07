@@ -57883,7 +57883,13 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     component: function component() {
       return Promise.all(/*! import() | articleComponent */[__webpack_require__.e("vendors~articleBanner~articleComponent"), __webpack_require__.e("articleComponent")]).then(__webpack_require__.bind(null, /*! ./components/articleComponent.vue */ "./resources/js/components/articleComponent.vue"));
     }
-  }]
+  }],
+  scrollBehavior: function scrollBehavior(to, from, savedPosition) {
+    return {
+      x: 0,
+      y: 0
+    };
+  }
 });
 
 

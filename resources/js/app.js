@@ -27,7 +27,9 @@ Vue.use(Vuerouter);
              component: ()=> import(/*webpackChunkName: 'articleComponent'  */ './components/articleComponent.vue'),
          },
      ],
-
+     scrollBehavior(to, from, savedPosition){
+         return {x:0,y:0}
+     }
 
  });
 

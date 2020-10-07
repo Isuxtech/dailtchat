@@ -50,6 +50,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'home',
@@ -57,7 +58,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       'scrollHeight': null,
       'no_article': false,
-      'selectedSlug': null
+      'selectedSlug': null,
+      'loaded': true
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
@@ -67,6 +69,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     next_page_url: 'NEXT_URL',
     next_btn: 'NEXT_BTN'
   })),
+  watch: {
+    loaded: function loaded() {
+      return this.next_label = "loading";
+    }
+  },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
     if (from.name === null) {
       next(function (vm) {
@@ -122,6 +129,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           next_btn: responseBody.meta.current_page !== responseBody.meta.last_page // && (this.next_btn != true),
 
         });
+
+        _this2.loaded = true;
       })["catch"](function (err) {// this.no_article = true;
       });
     },
@@ -140,6 +149,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     loadNext: function loadNext() {
+      this.loaded = false;
       this.getAxios(this.next_page_url);
     },
     readArticle: function readArticle(slug) {
@@ -237,9 +247,41 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "next-wrapper" }, [
         _vm.next_btn
-          ? _c("button", { staticClass: "next", on: { click: _vm.loadNext } }, [
-              _vm._v(" Next")
-            ])
+          ? _c(
+              "button",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.loaded,
+                    expression: "loaded"
+                  }
+                ],
+                staticClass: "next",
+                on: { click: _vm.loadNext }
+              },
+              [_vm._v("Next")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.next_btn
+          ? _c(
+              "button",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.loaded,
+                    expression: "!loaded"
+                  }
+                ],
+                staticClass: "next",
+                attrs: { disabled: "" }
+              },
+              [_vm._v("Loading")]
+            )
           : _vm._e()
       ])
     ])
@@ -256,14 +298,15 @@ render._withStripped = true
 /*!******************************************!*\
   !*** ./resources/js/components/home.vue ***!
   \******************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _home_vue_vue_type_template_id_fa6affac___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./home.vue?vue&type=template&id=fa6affac& */ "./resources/js/components/home.vue?vue&type=template&id=fa6affac&");
 /* harmony import */ var _home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./home.vue?vue&type=script&lang=js& */ "./resources/js/components/home.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _home_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -293,7 +336,7 @@ component.options.__file = "resources/js/components/home.vue"
 /*!*******************************************************************!*\
   !*** ./resources/js/components/home.vue?vue&type=script&lang=js& ***!
   \*******************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

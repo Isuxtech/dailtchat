@@ -79,7 +79,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getAxios: function getAxios() {
       var _this = this;
 
-      var nextPage = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/posts?size=2";
+      var nextPage = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/posts";
       var result = this.article;
       axios.get(nextPage, {
         headers: {

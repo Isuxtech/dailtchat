@@ -56,7 +56,7 @@
             }
         },
         methods: {
-            getAxios(nextPage = `/api/posts?size=2`) {
+            getAxios(nextPage = `/api/posts`) {
                 let result = this.article;
                 axios.get(nextPage, {
                     headers: {

@@ -14,10 +14,10 @@ class AddNewFieldsToPost extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->string('abstract')->after('title');
+            $table->string('abstract',150)->after('title');
             $table->integer('category_id')->after('title');
             $table->string('image_url')->after('title');
-            $table->string('more_reference')->after('title');
+            $table->string('more_reference')->nullable()->after('title');
 
         });
     }

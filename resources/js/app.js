@@ -8,8 +8,8 @@ Vue.use(Vuerouter);
 
 
  const router = new Vuerouter({
-      mode: 'history',
-      history: true,
+      //mode: 'history',
+      //history: true,
      routes: [
          {
          path:'/',

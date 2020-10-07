@@ -18,7 +18,9 @@
            </div>
            <div class="next-wrapper">
                <button class="next" v-if="next_btn" @click="loadNext" v-show="loaded">Next</button>
-               <button class="next" v-if="next_btn" v-show="!loaded" disabled>Loading</button>
+               <div class="loading-wrapper" v-if="next_btn" v-show="!loaded" disabled>
+                   <img :src="loader" alt="" class="loader_img">
+               </div>
            </div>
 
 
@@ -34,6 +36,7 @@
         name:'home',
         data(){
           return {
+              'loader':'../img/loading.gif',
               'scrollHeight': null,
               'no_article' :false,
               'selectedSlug':null,
@@ -129,3 +132,14 @@
 
 </script>
 
+<style>
+.loading-wrapper{
+    display:flex;
+    place-items: center;
+}
+.loader_img{
+    height: 40px;
+    width: 40px;
+}
+
+</style>

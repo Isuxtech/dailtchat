@@ -35,6 +35,7 @@
           return {
               'scrollHeight': null,
               'no_article' :false,
+              'selectedSlug':null,
           }
         },
         computed:{
@@ -50,6 +51,15 @@
             if(from.name === null){
                 next(vm=>{
                     vm.getAxios();
+                })
+            }else{
+                next();
+            }
+        },
+        beforeRouteLeave(to, from, next){
+            if(to.name === 'article'){
+                next(vm=>{
+                    vm.getPost(this.selectedSlug);
                 })
             }else{
                 next();
@@ -82,10 +92,24 @@
                         // this.no_article = true;
                     });
             },
+            getPost(slug){
+                axios.get(`/api/posts/${slug}`)
+                    .then(response =>{
+                        this.$store.dispatch('storeArticle',{article: response.data })
+                        this.is_loaded = true
+
+                    })
+                    .catch(err =>{
+                        this.is_loaded = false
+                        // tell the user what happened and then
+                        // return the user to the home path immediately
+                    })
+            },
             loadNext() {
                 this.getAxios(this.next_page_url);
             },
             readArticle: function (slug) {
+                // this.selectedSlug = slug;
                 this.$router.push({name: 'article', params: {'slug': slug}})
             },
         }

@@ -56,7 +56,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       'scrollHeight': null,
-      'no_article': false
+      'no_article': false,
+      'selectedSlug': null
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
@@ -75,9 +76,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       next();
     }
   },
+  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+    var _this = this;
+
+    if (to.name === 'article') {
+      next(function (vm) {
+        vm.getPost(_this.selectedSlug);
+      });
+    } else {
+      next();
+    }
+  },
   methods: {
     getAxios: function getAxios() {
-      var _this = this;
+      var _this2 = this;
 
       var nextPage = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "/api/posts";
       var result = this.article;
@@ -102,7 +114,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _iterator.f();
         }
 
-        _this.$store.dispatch('commitAllArticle', {
+        _this2.$store.dispatch('commitAllArticle', {
           article: result,
           current_page: responseBody.meta.current_page,
           last_page: responseBody.meta.last_page,
@@ -113,10 +125,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["catch"](function (err) {// this.no_article = true;
       });
     },
+    getPost: function getPost(slug) {
+      var _this3 = this;
+
+      axios.get("/api/posts/".concat(slug)).then(function (response) {
+        _this3.$store.dispatch('storeArticle', {
+          article: response.data
+        });
+
+        _this3.is_loaded = true;
+      })["catch"](function (err) {
+        _this3.is_loaded = false; // tell the user what happened and then
+        // return the user to the home path immediately
+      });
+    },
     loadNext: function loadNext() {
       this.getAxios(this.next_page_url);
     },
     readArticle: function readArticle(slug) {
+      // this.selectedSlug = slug;
       this.$router.push({
         name: 'article',
         params: {

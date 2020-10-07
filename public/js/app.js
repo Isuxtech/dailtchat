@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"homeBanner":"homeBanner","search":"search","vendors~articleBanner~articleComponent~home":"vendors~articleBanner~articleComponent~home","articleBanner":"articleBanner","articleComponent":"articleComponent","home":"home"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"home":"home","homeBanner":"homeBanner","search":"search","vendors~articleBanner~articleComponent":"vendors~articleBanner~articleComponent","articleBanner":"articleBanner","articleComponent":"articleComponent"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -2045,17 +2045,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'main-app',
+  data: function data() {
+    return {
+      footer_logo: '../img/footer-logo.png',
+      facebook: '../img/facebook.png',
+      twitter: '../img/twitter.png',
+      linkedin: '../img/linkedin.png'
+    };
+  },
   components: {
     Navigation: _navigationComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
     homeBanner: function homeBanner() {
       return __webpack_require__.e(/*! import() | homeBanner */ "homeBanner").then(__webpack_require__.bind(null, /*! ./homeBanner.vue */ "./resources/js/components/homeBanner.vue"));
     },
     articleBanner: function articleBanner() {
-      return Promise.all(/*! import() | articleBanner */[__webpack_require__.e("vendors~articleBanner~articleComponent~home"), __webpack_require__.e("articleBanner")]).then(__webpack_require__.bind(null, /*! ./articleBanner.vue */ "./resources/js/components/articleBanner.vue"));
+      return Promise.all(/*! import() | articleBanner */[__webpack_require__.e("vendors~articleBanner~articleComponent"), __webpack_require__.e("articleBanner")]).then(__webpack_require__.bind(null, /*! ./articleBanner.vue */ "./resources/js/components/articleBanner.vue"));
     }
   },
   computed: {
@@ -41224,17 +41246,53 @@ var render = function() {
     _vm._v(" "),
     _c("main", [_c("router-view")], 1),
     _vm._v(" "),
-    _c("footer", {
-      staticStyle: {
-        height: "40px",
-        width: "100%",
-        "background-color": "green",
-        "margin-botton": "50px"
-      }
-    })
+    _c("footer", [
+      _c("div", { staticClass: "f-wrapper" }, [
+        _c("div", [
+          _c("img", {
+            staticClass: "footer-logo",
+            attrs: { src: _vm.footer_logo, alt: "" }
+          }),
+          _vm._v(" "),
+          _c("p", { staticClass: "copy" }, [_vm._v("© copyright 2020")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "social-wrapper" }, [
+          _c("img", {
+            staticClass: "social-img",
+            attrs: { src: _vm.facebook, alt: "" }
+          }),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "social-img",
+            attrs: { src: _vm.twitter, alt: "" }
+          }),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "social-img",
+            attrs: { src: _vm.linkedin, alt: "" }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(0)
+    ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "designed_by" }, [
+      _c("span", [_vm._v("designed by:")]),
+      _vm._v(" "),
+      _c("a", { attrs: { href: "mailto:omokpogabriel@gmail.com" } }, [
+        _vm._v("Isuxtech")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -57869,7 +57927,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: '/',
     name: 'home',
     component: function component() {
-      return Promise.all(/*! import() | home */[__webpack_require__.e("vendors~articleBanner~articleComponent~home"), __webpack_require__.e("home")]).then(__webpack_require__.bind(null, /*! ./components/home.vue */ "./resources/js/components/home.vue"));
+      return __webpack_require__.e(/*! import() | home */ "home").then(__webpack_require__.bind(null, /*! ./components/home.vue */ "./resources/js/components/home.vue"));
     }
   }, {
     path: '/search/:term',
@@ -57881,7 +57939,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: '/article/:slug',
     name: 'article',
     component: function component() {
-      return Promise.all(/*! import() | articleComponent */[__webpack_require__.e("vendors~articleBanner~articleComponent~home"), __webpack_require__.e("articleComponent")]).then(__webpack_require__.bind(null, /*! ./components/articleComponent.vue */ "./resources/js/components/articleComponent.vue"));
+      return Promise.all(/*! import() | articleComponent */[__webpack_require__.e("vendors~articleBanner~articleComponent"), __webpack_require__.e("articleComponent")]).then(__webpack_require__.bind(null, /*! ./components/articleComponent.vue */ "./resources/js/components/articleComponent.vue"));
     }
   }],
   scrollBehavior: function scrollBehavior(to, from, savedPosition) {

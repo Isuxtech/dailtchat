@@ -131,15 +131,3 @@
     }
 
 </script>
-
-<style>
-.loading-wrapper{
-    display:flex;
-    place-items: center;
-}
-.loader_img{
-    height: 40px;
-    width: 40px;
-}
-
-</style>

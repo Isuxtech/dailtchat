@@ -6,6 +6,5 @@
     "/home.js": "/home.js",
     "/homeBanner.js": "/homeBanner.js",
     "/search.js": "/search.js",
-    "/vendors~articleBanner~articleComponent.js": "/vendors~articleBanner~articleComponent.js",
-    "/vendors~articleBanner~articleComponent~home.js": "/vendors~articleBanner~articleComponent~home.js"
+    "/vendors~articleBanner~articleComponent.js": "/vendors~articleBanner~articleComponent.js"
 }
